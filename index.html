@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 
 <head>
-  <!--
-  <link href='https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-  <link href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css' rel='stylesheet'
-    type='text/css'>
-  <link href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css' rel='stylesheet'
-    type='text/css'>
-  <link href='https://davidstutz.github.io/bootstrap-multiselect/css/bootstrap-multiselect.css' rel='stylesheet'
-    type='text/css'>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js' type='text/javascript'></script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js'
-    type='text/javascript'></script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js'
-    type='text/javascript'></script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js'
-    type='text/javascript'></script>
-  <script src='https://davidstutz.github.io/bootstrap-multiselect/js/bootstrap-multiselect.js'
-    type='text/javascript'></script>-->
-
+ 
   <meta charset="UTF-8">
   <script lang="javascript" src="js/jquery-3.3.1.js"></script>
+      <link rel="stylesheet" href="css/tabla.css">
 
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="css/style.css" type="text/css">
@@ -61,7 +45,7 @@
 
               <div class='form-horizontal'>
                 <div class='form-group'>
-                  <label class='control-label col-md-2 col-md-offset-2' for='lblRazonSocial'>Razón social</label>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtRazonSocial'>Razón social</label>
                   <div class='col-md-6'>
                     <input class='form-control' id='txtRazonSocial' placeholder='Ingresar razón social'
                       value="Mi razón social" type="text">
@@ -69,14 +53,14 @@
                 </div>
 
                 <div class='form-group'>
-                  <label class='control-label col-md-2 col-md-offset-2' for='lblRuc'>RUC</label>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtRuc'>RUC</label>
                   <div class='col-md-6'>
                     <input class='form-control' id='txtRuc' placeholder='Ingresar RUC' value="123456789" type="number">
                   </div>
                 </div>
 
                 <div class='form-group'>
-                  <label class='control-label col-md-2 col-md-offset-2' for='lblDireccion'>Dirección</label>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtDireccion'>Dirección</label>
                   <div class='col-md-6'>
                     <input class='form-control' id='txtDireccion' placeholder='Ingresar dirección' value="Mi dirección"
                       type="text">
@@ -84,12 +68,20 @@
                 </div>
 
                 <div class='form-group'>
-                  <label class='control-label col-md-2 col-md-offset-2' for='lblTelefono'>Teléfono</label>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtTelefono'>Teléfono</label>
                   <div class='col-md-6'>
                     <input class='form-control' id='txtTelefono' placeholder='Ingresar teléfono' value="987654321"
                       type="number">
                   </div>
                 </div>
+				
+				<div class='form-group'>
+                          <label class='control-label col-md-2 col-md-offset-2' for='txtConsiderarIGV'>IGV cálculo</label>
+                          <div class='col-md-2'>
+                            <input class='form-control' id='txtConsiderarIGV' type="number">
+                          </div>
+						  <label class='control-label col-md-1' for='txtConsiderarIGV'>%</label>
+                        </div>
 
                 <div class='form-group'>
                   <div id="mensajeForm1" class="col-md-offset-4 col-md-6"></div>
@@ -115,7 +107,7 @@
 
               <div class='form-horizontal'>
                 <div class='form-group'>
-                  <label class='control-label col-md-2 col-md-offset-2' for='lblDescripcion'>Descripcion
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtDescripcion'>Descripcion
                     producto</label>
                   <div class='col-md-6'>
                     <input class='form-control' id='txtDescripcion' placeholder='Ingresar descripción' type="text">
@@ -123,7 +115,7 @@
                 </div>
 
                 <div class='form-group'>
-                  <label class='control-label col-md-2 col-md-offset-2' for='lblUnidad'>Unidad</label>
+                  <label class='control-label col-md-2 col-md-offset-2' for='cboUnidad'>Unidad</label>
                   <div class='col-md-6'>
                     <select class='form-control' id='cboUnidad'>
                       <option>UNIDAD</option>
@@ -136,21 +128,21 @@
                 </div>
                 
                 <div class='form-group'>
-                    <label class='control-label col-md-2 col-md-offset-2' for='lblCantidad'>Cantidad</label>
+                    <label class='control-label col-md-2 col-md-offset-2' for='txtCantidad'>Cantidad</label>
                     <div class='col-md-6'>
                       <input class='form-control' id='txtCantidad' placeholder='Ingresar cantidad' type="number">
                     </div>
                   </div>
 
                   <div class='form-group'>
-                      <label class='control-label col-md-2 col-md-offset-2' for='lblPrecio'>Precio unitario</label>
+                      <label class='control-label col-md-2 col-md-offset-2' for='txtPrecio'>Precio unitario</label>
                       <div class='col-md-6'>
                         <input class='form-control' id='txtPrecio' placeholder='Ingresar precio' type="number">
                       </div>
                     </div>
 
                     <div class='form-group'>
-                        <label class='control-label col-md-2 col-md-offset-2' for='lblMarca'>Marca</label>
+                        <label class='control-label col-md-2 col-md-offset-2' for='cboMarca'>Marca</label>
                         <div class='col-md-6'>
                           <select class='form-control' id='cboMarca'>
                             <option>Marca 1</option>
@@ -163,10 +155,27 @@
                       </div>
 
                       <div class='form-group'>
-                          <label class='control-label col-md-2 col-md-offset-2' for='lblSubtotal'>Subtotal</label>
+                          <label class='control-label col-md-2 col-md-offset-2' for='txtSubtotal'>Subtotal</label>
                           <div class='col-md-6'>
                             <input class='form-control' id='txtSubtotal' type="number" disabled>
                           </div>
+                        </div>
+						
+						<div class='form-group'>
+                          <label class='control-label col-md-2 col-md-offset-2' for='txtIGV'>IGV</label>
+                          <div class='col-md-2'>
+                            <input class='form-control' id='txtIGV' type="number" disabled>
+                          </div>
+							<label class='control-label col-md-1' for='txtIGV'>%</label>
+
+                        </div>
+						
+						<div class='form-group'>
+                          <label class='control-label col-md-2 col-md-offset-2' for='txtTotal'>Total</label>
+                          <div class='col-md-6'>
+                            <input class='form-control' id='txtTotal' type="number" disabled>
+                          </div>
+
                         </div>
 
                 <div class='form-group'>
@@ -177,34 +186,89 @@
                   </div>
                 </div>
 
-                <div class="container">
-                    <h2>Productos</h2>
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>Firstname</th>
-                          <th>Lastname</th>
-                          <th>Email</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>John</td>
-                          <td>Doe</td>
-                          <td>john@example.com</td>
-                        </tr>
-                        <tr>
-                          <td>Mary</td>
-                          <td>Moe</td>
-                          <td>mary@example.com</td>
-                        </tr>
-                        <tr>
-                          <td>July</td>
-                          <td>Dooley</td>
-                          <td>july@example.com</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                   <div class="row">
+              <div class="col-md-12">
+                <h3 class="text-muted">Productos</h3>
+              </div>
+            </div>
+					<div class="row">
+              <div class="col-md-12">
+					
+                    <div class="contenedor-tabla">
+  
+  <div class="tabla">
+    
+    <div class="fila-tabla encabezado-tabla blue">
+      <div class="celda-tabla">
+        Item
+      </div>
+	  <div class="celda-tabla">
+        Descripción
+      </div>
+      <div class="celda-tabla">
+        Marca/Procedencia
+      </div>
+	  <div class="celda-tabla">
+        Cantidad
+      </div>
+      <div class="celda-tabla">
+        Unidad
+      </div>
+	  <div class="celda-tabla">
+        Precio unidad
+      </div>
+	  <div class="celda-tabla">
+        Subtotal
+      </div>
+	  <div class="celda-tabla">
+        Total
+      </div>
+    </div>
+    
+    <div class="fila-tabla">
+      <div class="celda-tabla">
+        Luke Peters
+      </div>
+      <div class="celda-tabla">
+        25
+      </div>
+      <div class="celda-tabla">
+        Freelance Web Developer
+      </div>
+      <div class="celda-tabla">
+        Brookline, MA
+      </div>
+    </div>
+    
+    <div class="fila-tabla">
+      <div class="celda-tabla">
+        Joseph Smith
+      </div>
+      <div class="celda-tabla">
+        27
+      </div>
+      <div class="celda-tabla">
+        Project Manager
+      </div>
+      <div class="celda-tabla">
+        Somerville, MA
+      </div>
+    </div>
+    
+    
+    
+  
+  
+  
+</div>
+
+</div>
+</div>
+
+
+
+
+
                   </div>
 
               </div>
@@ -232,11 +296,17 @@
   const TELEFONO = "987654321";
   const IGV=18;
 
+  // Los valores seleccionados
+  // Arreglos, textos, etc
+  let igvSeleccionado=IGV;
+  let productos=[];
+  
   // Cargo los valores predeterminados
   $('#txtRazonSocial').val(RAZONSOCIAL)
   $('#txtRuc').val(RUC);
   $('#txtDireccion').val(DIRECCION);
   $('#txtTelefono').val(TELEFONO);
+  $('#txtConsiderarIGV').val(IGV);
 
   // Cargo el deslizador de página
   $("#contenedor").page();
@@ -270,9 +340,13 @@
 
     // Borro el mensaje de error si es que lo hay
     $('#mensajeForm1').empty();
-
-    //$('#txtDescripcion').focus();
-
+	
+	// Guardo el IGV según el elegido
+	igvSeleccionado=$('#txtConsiderarIGV').val();
+	
+	// Muestro el IGV guardado
+	$('#txtIGV').val(igvSeleccionado);
+	
     // Cambio el título del encabezado
     $('#encabezado').empty();
     $('#encabezado').append(`
