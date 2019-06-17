@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <head>
- 
+
   <meta charset="UTF-8">
   <script lang="javascript" src="js/jquery-3.3.1.js"></script>
-      <link rel="stylesheet" href="css/tabla.css">
+  <link rel="stylesheet" href="css/tabla.css">
 
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="css/style.css" type="text/css">
@@ -74,14 +74,14 @@
                       type="number">
                   </div>
                 </div>
-				
-				<div class='form-group'>
-                          <label class='control-label col-md-2 col-md-offset-2' for='txtConsiderarIGV'>IGV cálculo</label>
-                          <div class='col-md-2'>
-                            <input class='form-control' id='txtConsiderarIGV' type="number">
-                          </div>
-						  <label class='control-label col-md-1' for='txtConsiderarIGV'>%</label>
-                        </div>
+
+                <div class='form-group'>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtConsiderarIGV'>IGV cálculo</label>
+                  <div class='col-md-2'>
+                    <input class='form-control' id='txtConsiderarIGV' type="number">
+                  </div>
+                  <label class='control-label col-md-1' for='txtConsiderarIGV'>%</label>
+                </div>
 
                 <div class='form-group'>
                   <div id="mensajeForm1" class="col-md-offset-4 col-md-6"></div>
@@ -115,6 +115,19 @@
                 </div>
 
                 <div class='form-group'>
+                  <label class='control-label col-md-2 col-md-offset-2' for='cboMarca'>Marca</label>
+                  <div class='col-md-6'>
+                    <select class='form-control' id='cboMarca'>
+                      <option>Marca 1</option>
+                      <option>Marca 2</option>
+                      <option>Marca 3</option>
+                      <option>Marca 4</option>
+                      <option>Marca 5</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class='form-group'>
                   <label class='control-label col-md-2 col-md-offset-2' for='cboUnidad'>Unidad</label>
                   <div class='col-md-6'>
                     <select class='form-control' id='cboUnidad'>
@@ -126,150 +139,104 @@
                     </select>
                   </div>
                 </div>
-                
+
                 <div class='form-group'>
-                    <label class='control-label col-md-2 col-md-offset-2' for='txtCantidad'>Cantidad</label>
-                    <div class='col-md-6'>
-                      <input class='form-control' id='txtCantidad' placeholder='Ingresar cantidad' type="number">
-                    </div>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtCantidad'>Cantidad</label>
+                  <div class='col-md-6'>
+                    <input class='form-control' id='txtCantidad' placeholder='Ingresar cantidad' type="number">
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtPrecio'>Precio unidad</label>
+                  <div class='col-md-6'>
+                    <input class='form-control' id='txtPrecio' placeholder='Ingresar precio' type="number">
+                  </div>
+                </div>
+
+
+
+                <div class='form-group'>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtSubtotal'>Subtotal</label>
+                  <div class='col-md-6'>
+                    <input class='form-control' id='txtSubtotal' type="number" disabled>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtIGV'>IGV</label>
+                  <div class='col-md-2'>
+                    <input class='form-control' id='txtIGV' type="number" disabled>
+                  </div>
+                  <label class='control-label col-md-1' for='txtIGV'>%</label>
+
+                </div>
+
+                <div class='form-group'>
+                  <label class='control-label col-md-2 col-md-offset-2' for='txtTotal'>Total</label>
+                  <div class='col-md-6'>
+                    <input class='form-control' id='txtTotal' type="number" disabled>
                   </div>
 
-                  <div class='form-group'>
-                      <label class='control-label col-md-2 col-md-offset-2' for='txtPrecio'>Precio unitario</label>
-                      <div class='col-md-6'>
-                        <input class='form-control' id='txtPrecio' placeholder='Ingresar precio' type="number">
-                      </div>
-                    </div>
-
-                    <div class='form-group'>
-                        <label class='control-label col-md-2 col-md-offset-2' for='cboMarca'>Marca</label>
-                        <div class='col-md-6'>
-                          <select class='form-control' id='cboMarca'>
-                            <option>Marca 1</option>
-                            <option>Marca 2</option>
-                            <option>Marca 3</option>
-                            <option>Marca 4</option>
-                            <option>Marca 5</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class='form-group'>
-                          <label class='control-label col-md-2 col-md-offset-2' for='txtSubtotal'>Subtotal</label>
-                          <div class='col-md-6'>
-                            <input class='form-control' id='txtSubtotal' type="number" disabled>
-                          </div>
-                        </div>
-						
-						<div class='form-group'>
-                          <label class='control-label col-md-2 col-md-offset-2' for='txtIGV'>IGV</label>
-                          <div class='col-md-2'>
-                            <input class='form-control' id='txtIGV' type="number" disabled>
-                          </div>
-							<label class='control-label col-md-1' for='txtIGV'>%</label>
-
-                        </div>
-						
-						<div class='form-group'>
-                          <label class='control-label col-md-2 col-md-offset-2' for='txtTotal'>Total</label>
-                          <div class='col-md-6'>
-                            <input class='form-control' id='txtTotal' type="number" disabled>
-                          </div>
-
-                        </div>
+                </div>
 
                 <div class='form-group'>
 
                   <div class='col-md-offset-4 col-md-6'>
-                    <button class='btn btn-success' style="width:100%" data-page-name="2"
-                      data-page-trans="slide-in-from-right"><i class="fa fa-plus"></i> Agregar a la tabla</button>
+                    <button id="btnAgregar" class='btn btn-success' style="width:100%">
+                      <i class="fa fa-plus"></i> Agregar a la tabla</button>
                   </div>
                 </div>
 
-                   <div class="row">
-              <div class="col-md-12">
-                <h3 class="text-muted">Productos</h3>
-              </div>
-            </div>
-					<div class="row">
-              <div class="col-md-12">
-					
-                    <div class="contenedor-tabla">
-  
-  <div class="tabla">
-    
-    <div class="fila-tabla encabezado-tabla blue">
-      <div class="celda-tabla">
-        Item
-      </div>
-	  <div class="celda-tabla">
-        Descripción
-      </div>
-      <div class="celda-tabla">
-        Marca/Procedencia
-      </div>
-	  <div class="celda-tabla">
-        Cantidad
-      </div>
-      <div class="celda-tabla">
-        Unidad
-      </div>
-	  <div class="celda-tabla">
-        Precio unidad
-      </div>
-	  <div class="celda-tabla">
-        Subtotal
-      </div>
-	  <div class="celda-tabla">
-        Total
-      </div>
-    </div>
-    
-    <div class="fila-tabla">
-      <div class="celda-tabla">
-        Luke Peters
-      </div>
-      <div class="celda-tabla">
-        25
-      </div>
-      <div class="celda-tabla">
-        Freelance Web Developer
-      </div>
-      <div class="celda-tabla">
-        Brookline, MA
-      </div>
-    </div>
-    
-    <div class="fila-tabla">
-      <div class="celda-tabla">
-        Joseph Smith
-      </div>
-      <div class="celda-tabla">
-        27
-      </div>
-      <div class="celda-tabla">
-        Project Manager
-      </div>
-      <div class="celda-tabla">
-        Somerville, MA
-      </div>
-    </div>
-    
-    
-    
-  
-  
-  
-</div>
-
-</div>
-</div>
-
-
-
-
-
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="text-muted">Productos</h3>
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="contenedor-tabla">
+
+                      <div class="tabla" id="tabla">
+
+                        <div class="fila-tabla encabezado-tabla blue">
+                          <div class="celda-tabla">
+                            Item
+                          </div>
+                          <div class="celda-tabla">
+                            Descripción
+                          </div>
+                          <div class="celda-tabla">
+                            Marca/Procedencia
+                          </div>
+                          <div class="celda-tabla">
+                            Unidad
+                          </div>
+                          <div class="celda-tabla">
+                            Cantidad
+                          </div>
+                          <div class="celda-tabla">
+                            Precio unidad
+                          </div>
+                          <div class="celda-tabla">
+                            Subtotal
+                          </div>
+                          <div class="celda-tabla">
+                            Total
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+
+
+
+                </div>
 
               </div>
             </div>
@@ -294,13 +261,13 @@
   const RUC = "123456789";
   const DIRECCION = "Mi dirección predeterminada";
   const TELEFONO = "987654321";
-  const IGV=18;
+  const IGV = 18;
 
   // Los valores seleccionados
   // Arreglos, textos, etc
-  let igvSeleccionado=IGV;
-  let productos=[];
-  
+  let igvSeleccionado = IGV;
+  let productos = [];
+
   // Cargo los valores predeterminados
   $('#txtRazonSocial').val(RAZONSOCIAL)
   $('#txtRuc').val(RUC);
@@ -311,14 +278,174 @@
   // Cargo el deslizador de página
   $("#contenedor").page();
 
+  // Manejo de botones y cambios
+  function limpiarCampos() {
+    $("#txtDescripcion").val("");
+    $("#cboMarca").prop('selectedIndex', 0);
+    $("#cboUnidad").prop('selectedIndex', 0);
+    $("#txtCantidad").val("");
+    $("#txtPrecio").val("");
+    $("#txtSubtotal").val("");
+    $("#txtTotal").val("");
+
+  }
+
+  function actualizarTabla() {
+
+    // Vacío la tabla
+    $("#tabla").empty();
+
+    // Reescribo el encabezado
+    $("#tabla").append(`
+    <div class="fila-tabla encabezado-tabla blue">
+                          <div class="celda-tabla">
+                            Item
+                          </div>
+                          <div class="celda-tabla">
+                            Descripción
+                          </div>
+                          <div class="celda-tabla">
+                            Marca/Procedencia
+                          </div>
+                          <div class="celda-tabla">
+                            Unidad
+                          </div>
+                          <div class="celda-tabla">
+                            Cantidad
+                          </div>
+                          <div class="celda-tabla">
+                            Precio unidad
+                          </div>
+                          <div class="celda-tabla">
+                            Subtotal
+                          </div>
+                          <div class="celda-tabla">
+                            Total
+                          </div>
+                        </div>
+    `)
+
+    for (var i = 0; i < productos.length; i++) {
+
+      $("#tabla").append(`<div class="fila-tabla">
+                          <div class="celda-tabla">
+                            ${productos[i].id}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].descripcion}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].marca}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].unidad}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].cantidad}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].precio}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].subtotal}
+                          </div>
+                          <div class="celda-tabla">
+                            ${productos[i].total}
+                          </div>
+                        </div>
+`);
+
+    }
+
+  }
+
+  function agregarProducto(producto) {
+    productos.push(producto);
+    actualizarTabla();
+    limpiarCampos();
+    $("#txtDescripcion").focus();
+
+  }
+
+  function modificarProducto(producto) {
+
+  }
+
+  function eliminarProducto(id) {
+
+  }
+
+
+  function calcularTotalYSubtotal(cantidad, precio) {
+
+    let subTotal = cantidad * precio;
+
+    $("#txtSubtotal").val(subTotal);
+    $("#txtTotal").val((subTotal) + ((igvSeleccionado / 100) * (subTotal)));
+  }
+
+  // Hago los cálculos apenas cambie un campo
+  $("#txtCantidad").on('input', function () {
+    let cantidad = $("#txtCantidad").val();
+    let precio = $("#txtPrecio").val();
+    if (!isNaN(cantidad) && !isNaN(precio)) {
+      calcularTotalYSubtotal(cantidad, precio);
+    }
+
+  });
+
+  $("#txtPrecio").on('input', function () {
+    let cantidad = $("#txtCantidad").val();
+    let precio = $("#txtPrecio").val();
+    if (!isNaN(cantidad) && !isNaN(precio)) {
+      calcularTotalYSubtotal(cantidad, precio);
+    }
+
+  });
+
+  // Agrego los campos al hacer click en Agregar
+  $("#btnAgregar").click(function (e) {
+
+    let descripcion = $("#txtDescripcion").val();
+    let marca = $("#cboMarca").val();
+    let unidad = $("#cboUnidad").val();
+    let cantidad = $("#txtCantidad").val();
+    let precio = $("#txtPrecio").val();
+    let subtotal = $("#txtSubtotal").val();
+    let total = $("#txtTotal").val();
+
+    // Primero, verifico si hay campos vacíos 
+    if (descripcion != "" && marca != "" && unidad != "" && cantidad != "" && precio != "" && subtotal != "" && total != "") {
+      // Si todo está bien, que se agregue al arreglo
+      let producto = {};
+      producto.id = productos.length + 1;
+      producto.descripcion = descripcion;
+      producto.marca = marca;
+      producto.unidad = unidad;
+      producto.cantidad = cantidad;
+      producto.precio = precio;
+      producto.subtotal = subtotal;
+      producto.total = total;
+      agregarProducto(producto);
+
+    } else {
+      alert("Verifique que todos los campos se han llenado correctamente, incluyendo números")
+    }
+
+  })
+
+
+  // Manejo de deslizador
+
   // La función de validación para mostrar el registro 2
   $("#btnMostrarReg2").click(function (ev) {
     var razonSocial = $('#txtRazonSocial').val();
     var ruc = $('#txtRuc').val()
     var direccion = $('#txtDireccion').val()
     var telefono = $('#txtTelefono').val()
+    var igv = $('#txtConsiderarIGV').val()
 
-    if (razonSocial == "" || ruc == "" || direccion == "" || telefono == "") {
+    if (razonSocial == "" || ruc == "" || direccion == "" || telefono == "" || igv == "") {
       $("#contenedor").page().shake();
       $('#mensajeForm1').empty();
       $('#mensajeForm1').append('<div class="alert alert-danger" role="alert">Hay campos vacíos</div>');
@@ -340,13 +467,13 @@
 
     // Borro el mensaje de error si es que lo hay
     $('#mensajeForm1').empty();
-	
-	// Guardo el IGV según el elegido
-	igvSeleccionado=$('#txtConsiderarIGV').val();
-	
-	// Muestro el IGV guardado
-	$('#txtIGV').val(igvSeleccionado);
-	
+
+    // Guardo el IGV según el elegido
+    igvSeleccionado = $('#txtConsiderarIGV').val();
+
+    // Muestro el IGV guardado
+    $('#txtIGV').val(igvSeleccionado);
+
     // Cambio el título del encabezado
     $('#encabezado').empty();
     $('#encabezado').append(`
