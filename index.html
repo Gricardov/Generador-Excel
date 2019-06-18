@@ -178,16 +178,24 @@
                   </div>
 
                 </div>
-                
+
                 <div class='form-group'>
                   <div id="mensajeForm2" class="col-md-offset-4 col-md-6"></div>
                 </div>
 
                 <div class='form-group'>
 
-                  <div class='col-md-offset-4 col-md-6'>
+                  <div class='col-md-offset-4 col-md-2'>
                     <button id="btnAgregar" class='btn btn-success' style="width:100%">
                       <i class="fa fa-plus"></i> Agregar a la tabla</button>
+                  </div>
+                  <div class='col-md-2'>
+                    <button id="btnActualizar" class='btn btn-info' style="width:100%" disabled>
+                      <i class="fa fa-check"></i> Actualizar</button>
+                  </div>
+                  <div class='col-md-2'>
+                    <button id="btnCancelar" class='btn btn-danger' style="width:100%" disabled>
+                      <i class="fa fa-times"></i> Cancelar</button>
                   </div>
                 </div>
 
@@ -320,6 +328,32 @@
 
   // Manejo de botones y cambios
 
+  function cargarDatosCampos(id) {
+
+    let producto = null;
+
+    for (var i = 0; i < productos.length; i++) {
+      if (productos[i].id == id) {
+        producto = productos[i];
+      }
+    }
+    // Muestra los campos en el formulario para poder editarlos
+    if (producto) {
+      $("#txtDescripcion").val(producto.descripcion);
+      $("#cboMarca").val(producto.marca);
+      $("#cboUnidad").val(producto.unidad);
+      $("#txtCantidad").val(producto.cantidad);
+      $("#txtPrecio").val(producto.precio);
+      $("#txtSubtotal").val(producto.subtotal);
+      $("#txtTotal").val(producto.total);
+
+      // Y enfoco el txtDescripcion
+      $("#txtDescripcion").focus();
+
+    }
+
+  }
+
   function limpiarCampos() {
     $("#txtDescripcion").val("");
     $("#cboMarca").prop('selectedIndex', 0);
@@ -420,6 +454,12 @@
   }
 
   function modificarProducto(producto) {
+    for (var i = 0; i < productos.length; i++) {
+      if (productos[i].id == producto.id) {
+        productos[i]=producto;
+      }
+    }
+    actualizarTabla();
 
   }
 
@@ -498,10 +538,78 @@
 
   })
 
-  $("#tabla").on("click", ".editarRegistro", function (ev) {
-    /*var id = $(ev.target).attr("data-id");
+  // Actualizo el registro seleccionado
+  $("#btnActualizar").click(function (e) {
 
-    alert('editar '+id)*/
+    let descripcion = $("#txtDescripcion").val();
+    let marca = $("#cboMarca").val();
+    let unidad = $("#cboUnidad").val();
+    let cantidad = $("#txtCantidad").val();
+    let precio = $("#txtPrecio").val();
+    let subtotal = $("#txtSubtotal").val();
+    let total = $("#txtTotal").val();
+
+    // Primero, verifico si hay campos vacíos 
+    if (descripcion != "" && marca != "" && unidad != "" && cantidad != "" && precio != "" && subtotal != "" && total != "") {
+      // Si todo está bien, que se agregue al arreglo
+      $('#mensajeForm2').empty();
+
+      let producto = {};
+      producto.id = idSeleccionado;
+      producto.descripcion = descripcion;
+      producto.marca = marca;
+      producto.unidad = unidad;
+      producto.cantidad = cantidad;
+      producto.precio = precio;
+      producto.subtotal = subtotal;
+      producto.total = total;
+      modificarProducto(producto);
+      limpiarCampos();
+      // Deshabilito el btnActualizar, eliminar y habilito el agregar
+      $('#btnActualizar').attr("disabled", true);
+      $('#btnCancelar').attr("disabled", true);
+      $('#btnAgregar').attr("disabled", false);
+
+      accionActual = -1;
+      idSeleccionado = -1;
+
+    } else {
+      $("#contenedor").page().shake();
+      $('#mensajeForm2').empty();
+      $('#mensajeForm2').append('<div class="alert alert-danger" role="alert">Verifique que todos los campos se han llenado correctamente, incluyendo números</div>');
+    }
+
+  })
+
+  // Cancelo la acción actual y dejo todo como estaba
+  $("#btnCancelar").click(function (e) {
+
+    accionActual = -1;
+    idSeleccionado = -1;
+
+    limpiarCampos();
+
+    // Habilito el btnActualizar, eliminar y deshabilito el agregar
+    $('#btnActualizar').attr("disabled", true);
+    $('#btnCancelar').attr("disabled", true);
+    $('#btnAgregar').attr("disabled", false);
+
+  })
+
+  // Los botones que se encuentran en cada registro
+
+  $("#tabla").on("click", ".editarRegistro", function (ev) {
+    var id = $(ev.target).attr("data-id");
+    // Luego, establezco el id y su acción actual
+    accionActual = MODIFICAR;
+    idSeleccionado = id;
+
+    // Habilito el btnActualizar, eliminar y deshabilito el agregar
+    $('#btnActualizar').attr("disabled", false);
+    $('#btnCancelar').attr("disabled", false);
+    $('#btnAgregar').attr("disabled", true);
+
+    cargarDatosCampos(id);
 
   });
 
