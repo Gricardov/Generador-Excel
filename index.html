@@ -5,10 +5,9 @@
   <meta charset="UTF-8">
   <script lang="javascript" src="js/jquery-3.3.1.js"></script>
   <link rel="stylesheet" href="css/tabla.css">
-
+  <script lang="javascript" src="js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="css/style.css" type="text/css">
-  <script lang="javascript" src="js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="css/jquery.page.css" type="text/css" />
   <link rel="stylesheet" href="css/all.css" />
@@ -179,6 +178,10 @@
                   </div>
 
                 </div>
+                
+                <div class='form-group'>
+                  <div id="mensajeForm2" class="col-md-offset-4 col-md-6"></div>
+                </div>
 
                 <div class='form-group'>
 
@@ -225,6 +228,12 @@
                           <div class="celda-tabla">
                             Total
                           </div>
+                          <div class="celda-tabla">
+
+                          </div>
+                          <div class="celda-tabla">
+
+                          </div>
                         </div>
 
                       </div>
@@ -252,6 +261,29 @@
 
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalOpcion" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Confirmación</h4>
+        </div>
+        <div class="modal-body" id="cuerpoModalOpcion">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btnSi" class="btn btn-danger" data-dismiss="modal">Sí</button>
+          <button type="button" class="btn btn-primary" id="btnNo" data-dismiss="modal">No</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </body>
 
 <script>
@@ -263,8 +295,14 @@
   const TELEFONO = "987654321";
   const IGV = 18;
 
+  // Las acciones
+  const MODIFICAR = 1;
+  const ELIMINAR = 2;
+
   // Los valores seleccionados
   // Arreglos, textos, etc
+  let idSeleccionado = -1;
+  let accionActual = -1;
   let igvSeleccionado = IGV;
   let productos = [];
 
@@ -278,7 +316,10 @@
   // Cargo el deslizador de página
   $("#contenedor").page();
 
+
+
   // Manejo de botones y cambios
+
   function limpiarCampos() {
     $("#txtDescripcion").val("");
     $("#cboMarca").prop('selectedIndex', 0);
@@ -322,35 +363,47 @@
                           <div class="celda-tabla">
                             Total
                           </div>
+                          <div class="celda-tabla">                            
+                          </div>
+                          <div class="celda-tabla">                            
+                          </div>
                         </div>
     `)
 
     for (var i = 0; i < productos.length; i++) {
 
+      let producto = productos[i];
+
       $("#tabla").append(`<div class="fila-tabla">
                           <div class="celda-tabla">
-                            ${productos[i].id}
+                            ${producto.id}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].descripcion}
+                            ${producto.descripcion}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].marca}
+                            ${producto.marca}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].unidad}
+                            ${producto.unidad}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].cantidad}
+                            ${producto.cantidad}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].precio}
+                            ${producto.precio}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].subtotal}
+                            ${producto.subtotal}
                           </div>
                           <div class="celda-tabla">
-                            ${productos[i].total}
+                            ${producto.total}
+                          </div>
+                          <div class="celda-tabla editarRegistro" style="cursor:pointer;" data-id=${producto.id}>
+                            <i class="fa fa-edit"></i> Editar
+                          </div>
+                          <div class="celda-tabla borrarRegistro" style="cursor:pointer;" data-id=${producto.id}>
+                            <i class="fa fa-trash"></i> Borrar
                           </div>
                         </div>
 `);
@@ -364,7 +417,6 @@
     actualizarTabla();
     limpiarCampos();
     $("#txtDescripcion").focus();
-
   }
 
   function modificarProducto(producto) {
@@ -372,6 +424,14 @@
   }
 
   function eliminarProducto(id) {
+
+    for (var i = 0; i < productos.length; i++) {
+      if (productos[i].id == id) {
+        productos.splice(i, 1);
+      }
+    }
+
+    actualizarTabla();
 
   }
 
@@ -417,6 +477,8 @@
     // Primero, verifico si hay campos vacíos 
     if (descripcion != "" && marca != "" && unidad != "" && cantidad != "" && precio != "" && subtotal != "" && total != "") {
       // Si todo está bien, que se agregue al arreglo
+      $('#mensajeForm2').empty();
+
       let producto = {};
       producto.id = productos.length + 1;
       producto.descripcion = descripcion;
@@ -429,13 +491,48 @@
       agregarProducto(producto);
 
     } else {
-      alert("Verifique que todos los campos se han llenado correctamente, incluyendo números")
+      $("#contenedor").page().shake();
+      $('#mensajeForm2').empty();
+      $('#mensajeForm2').append('<div class="alert alert-danger" role="alert">Verifique que todos los campos se han llenado correctamente, incluyendo números</div>');
     }
 
   })
 
+  $("#tabla").on("click", ".editarRegistro", function (ev) {
+    /*var id = $(ev.target).attr("data-id");
 
-  // Manejo de deslizador
+    alert('editar '+id)*/
+
+  });
+
+  $("#tabla").on("click", ".borrarRegistro", function (ev) {
+    var id = $(ev.target).attr("data-id");
+    $("#cuerpoModalOpcion").empty();
+    $("#cuerpoModalOpcion").append(`<p>¿Deseas borrar el item ${id}?</p>`);
+
+    // Luego, establezco el id y su acción actual
+    accionActual = ELIMINAR;
+    idSeleccionado = id;
+
+    $("#modalOpcion").modal()
+
+  });
+
+  // Manejo de los botones del modal de opciones
+  $("#btnSi").on("click", function (ev) {
+    if (accionActual == ELIMINAR) {
+      eliminarProducto(idSeleccionado);
+      accionActual = -1;
+      idSeleccionado = -1;
+    }
+  });
+
+  $("#btnNo").on("click", function (ev) {
+    accionActual = -1;
+    idSeleccionado = -1;
+  });
+
+  // Manejo de deslizador de página
 
   // La función de validación para mostrar el registro 2
   $("#btnMostrarReg2").click(function (ev) {
