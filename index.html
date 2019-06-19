@@ -256,6 +256,15 @@
 
                 </div>
 
+                <div class="row">
+                  <div class="col-md-offset-9 col-md-1">
+                    <h4 class="text-muted">Total</h4>
+                  </div>
+                  <div class="col-md-2">
+                    <input class='form-control' id='txtTotalTodo' type="number" disabled>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -448,6 +457,9 @@
 
     }
 
+    // Finalmente, calculo el total de todo
+    calcularTodoTotal();
+
   }
 
   function agregarProducto(producto) {
@@ -479,6 +491,16 @@
 
   }
 
+  function calcularTodoTotal() {
+    let acumulado = 0;
+
+    // Recorro el arreglo y sumo los totales
+    for (var i = 0; i < productos.length; i++) {
+      acumulado += parseFloat(productos[i].total);
+    }
+    $("#txtTotalTodo").val(acumulado.toFixed(2));
+
+  }
 
   function calcularTotalYSubtotal(cantidad, precio) {
 
@@ -722,7 +744,7 @@
   var workbook = new GC.Spread.Sheets.Workbook(document.getElementById("excel"));
 
   var excelIO = new GC.Spread.Excel.IO();
-  var excelUrl = "./plantillas/formatoGlassgow.xlsx";
+  var excelUrl = "./plantillas/formatoGlassgowSimple.xlsx";
 
   var oReq = new XMLHttpRequest();
   oReq.open('get', excelUrl, true);
@@ -743,17 +765,19 @@
   }
 
   function generarExcel() {
+    // Esto es para guardar los valores fijos
+    const cIndFilaInicio=10;
+    const cIndColInicio=0;
 
-    let indFilInicio = 10;
-    let indColInicio = 0;
+    let indFilInicio = cIndFilaInicio;
+    let indColInicio = cIndColInicio;
 
     var sheet = workbook.getActiveSheet();
-    
+
     // Por cada uno de los productos, lleno los registros del Excel
     for (var i = 0; i < productos.length; i++) {
-      
-      let producto=productos[i];
-      sheet.addRows(indFilInicio, 0);  
+
+      let producto = productos[i];
 
       sheet.setValue(indFilInicio, 0, producto.id);
       sheet.setValue(indFilInicio, 1, producto.cantidad);
@@ -763,13 +787,30 @@
       sheet.setValue(indFilInicio, 5, producto.precio);
       sheet.setValue(indFilInicio, 6, producto.subtotal);
 
+      // Establezco la fórmula para los subtotales de cada registro
+      sheet.setFormula(indFilInicio, 6, `=(B${(indFilInicio + 1)}*F${(indFilInicio + 1)})`, GC.Spread.Sheets.SheetArea.viewport);
+
+      // Si no es la última iteración, que ya no agregue siguiente fila
+      if (i < productos.length - 1) {
+        // Agrego una nueva fila para la siguiente iteración    
+        sheet.addRows((indFilInicio + 1), 1);
+        // Copio los estilos para la nueva fila
+        sheet.copyTo(indFilInicio, 0, (indFilInicio + 1), 0, 1, 8, GC.Spread.Sheets.CopyToOptions.style);
+      }
+      // Si es la última iteración, que establezca las fórmulas para el subtotal, total e igv
+      else {
+        //sheet.setFormula(indFilInicio, 7, `=(G${(indFilInicio + 1)}+(G${(indFilInicio + 1)}*(${igvSeleccionado}/100)))`, GC.Spread.Sheets.SheetArea.viewport);
+        // Primero, el subtotal
+        sheet.setFormula(indFilInicio+1, 6, `=SUM(G9:G${(indFilInicio+1)})`, GC.Spread.Sheets.SheetArea.viewport);
+
+      }
       indFilInicio++;
-    }   
+    }
     guardarExcel();
   }
 
   function guardarExcel() {
-    var fileName = "test";
+    var fileName = "exportado";
     if (fileName.substr(-5, 5) !== '.xlsx') {
       fileName += '.xlsx';
     }
