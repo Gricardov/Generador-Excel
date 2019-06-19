@@ -739,77 +739,92 @@
 
   });
 
+
+
   // Script para excel
   $.support.cors = true;
-  var workbook = new GC.Spread.Sheets.Workbook(document.getElementById("excel"));
-
   var excelIO = new GC.Spread.Excel.IO();
-  var excelUrl = "./plantillas/formatoGlassgowSimple.xlsx";
 
-  var oReq = new XMLHttpRequest();
-  oReq.open('get', excelUrl, true);
-  oReq.responseType = 'blob';
-  oReq.onload = function () {
-    var blob = oReq.response;
-    excelIO.open(blob, cargarExcel, function (message) {
-      console.log(message);
-    });
-  };
-  oReq.send(null);
+  function leerPlantilla() {
+    var workbook = new GC.Spread.Sheets.Workbook(document.getElementById("excel"));
 
-  function cargarExcel(json) {
-    jsonData = json;
-    workbook.fromJSON(json);
-    workbook.setActiveSheet("1");
+    return new Promise((resolve, reject) => {
+
+      var excelUrl = "./plantillas/formatoGlassgowSimple.xlsx";
+
+      var oReq = new XMLHttpRequest();
+      oReq.open('get', excelUrl, true);
+      oReq.responseType = 'blob';
+      oReq.onload = function () {
+        var blob = oReq.response;
+        excelIO.open(blob, (json) => {
+          jsonData = json;
+          workbook.fromJSON(json);
+          workbook.setActiveSheet("1");
+          resolve(workbook);
+        }, function (message) {
+          console.log(message);
+          reject('No se pudo leer')
+        });
+      };
+      oReq.send(null);
+
+    })
 
   }
 
   function generarExcel() {
     // Esto es para guardar los valores fijos
-    const cIndFilaInicio=10;
-    const cIndColInicio=0;
+    let indFilInicio = 10;
+    let indColInicio = 0;
 
-    let indFilInicio = cIndFilaInicio;
-    let indColInicio = cIndColInicio;
+    // Uso promesas para esperar a que termine de leer la plantila
+    leerPlantilla()
+      .then((workbook) => {
+        var sheet = workbook.getActiveSheet();
 
-    var sheet = workbook.getActiveSheet();
+        // Por cada uno de los productos, lleno los registros del Excel
+        for (var i = 0; i < productos.length; i++) {
 
-    // Por cada uno de los productos, lleno los registros del Excel
-    for (var i = 0; i < productos.length; i++) {
+          let producto = productos[i];
 
-      let producto = productos[i];
+          sheet.setValue(indFilInicio, 0, producto.id);
+          sheet.setValue(indFilInicio, 1, producto.cantidad);
+          sheet.setValue(indFilInicio, 2, producto.unidad);
+          sheet.setValue(indFilInicio, 3, producto.descripcion);
+          sheet.setValue(indFilInicio, 4, producto.marca);
+          sheet.setValue(indFilInicio, 5, producto.precio);
+          sheet.setValue(indFilInicio, 6, producto.subtotal);
 
-      sheet.setValue(indFilInicio, 0, producto.id);
-      sheet.setValue(indFilInicio, 1, producto.cantidad);
-      sheet.setValue(indFilInicio, 2, producto.unidad);
-      sheet.setValue(indFilInicio, 3, producto.descripcion);
-      sheet.setValue(indFilInicio, 4, producto.marca);
-      sheet.setValue(indFilInicio, 5, producto.precio);
-      sheet.setValue(indFilInicio, 6, producto.subtotal);
+          // Establezco la fórmula para los subtotales de cada registro
+          sheet.setFormula(indFilInicio, 6, `=(B${(indFilInicio + 1)}*F${(indFilInicio + 1)})`, GC.Spread.Sheets.SheetArea.viewport);
 
-      // Establezco la fórmula para los subtotales de cada registro
-      sheet.setFormula(indFilInicio, 6, `=(B${(indFilInicio + 1)}*F${(indFilInicio + 1)})`, GC.Spread.Sheets.SheetArea.viewport);
+          // Si no es la última iteración, que ya no agregue siguiente fila
+          if (i < productos.length - 1) {
+            // Agrego una nueva fila para la siguiente iteración    
+            sheet.addRows((indFilInicio + 1), 1);
+            // Copio los estilos para la nueva fila
+            sheet.copyTo(indFilInicio, 0, (indFilInicio + 1), 0, 1, 8, GC.Spread.Sheets.CopyToOptions.style);
+          }
+          // Si es la última iteración, que establezca las fórmulas para el subtotal, total e igv
+          else {
+            //sheet.setFormula(indFilInicio, 7, `=(G${(indFilInicio + 1)}+(G${(indFilInicio + 1)}*(${igvSeleccionado}/100)))`, GC.Spread.Sheets.SheetArea.viewport);
+            // Primero, el subtotal
+            sheet.setFormula(indFilInicio + 1, 6, `=SUM(G9:G${(indFilInicio + 1)})`, GC.Spread.Sheets.SheetArea.viewport);
 
-      // Si no es la última iteración, que ya no agregue siguiente fila
-      if (i < productos.length - 1) {
-        // Agrego una nueva fila para la siguiente iteración    
-        sheet.addRows((indFilInicio + 1), 1);
-        // Copio los estilos para la nueva fila
-        sheet.copyTo(indFilInicio, 0, (indFilInicio + 1), 0, 1, 8, GC.Spread.Sheets.CopyToOptions.style);
-      }
-      // Si es la última iteración, que establezca las fórmulas para el subtotal, total e igv
-      else {
-        //sheet.setFormula(indFilInicio, 7, `=(G${(indFilInicio + 1)}+(G${(indFilInicio + 1)}*(${igvSeleccionado}/100)))`, GC.Spread.Sheets.SheetArea.viewport);
-        // Primero, el subtotal
-        sheet.setFormula(indFilInicio+1, 6, `=SUM(G9:G${(indFilInicio+1)})`, GC.Spread.Sheets.SheetArea.viewport);
+          }
+          indFilInicio++;
+        }
 
-      }
-      indFilInicio++;
-    }
-    guardarExcel();
+        guardarExcel(workbook);
+      })
+      .catch((error) => {
+        alert(error);
+      })
+
   }
 
-  function guardarExcel() {
+  function guardarExcel(workbook) {
     var fileName = "exportado";
     if (fileName.substr(-5, 5) !== '.xlsx') {
       fileName += '.xlsx';
