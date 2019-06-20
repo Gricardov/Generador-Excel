@@ -265,6 +265,44 @@
                   </div>
                 </div>
 
+                <div class="row" style="margin-top: 20px;">
+
+                  <div class="col-12">
+                    <ul class="nav nav-tabs row">
+                      <li class="col-md-4 active"><a data-toggle="tab" href="#menu1">Glassgow</a></li>
+                      <li class="col-md-4"><a data-toggle="tab" href="#menu2">Lineas hospitalarias</a></li>
+                      <li class="col-md-4"><a data-toggle="tab" href="#menu3">Otro formato</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                      <div id="menu1" class="tab-pane fade in active">
+                        <div class="container">
+                          <h3>Glassgow</h3>
+                          <p>Presione para generar excel</p>
+                          <button id="btnExportar" class='btn btn-primary' style="width:100%">
+                              <i class="fa fa-th"></i> Generar excel</button>
+                        </div>
+                      </div>
+                      <div id="menu2" class="tab-pane fade">
+                        <div class="container">
+
+                          <h3>Lineas hospitalarias</h3>
+                          <p>Presione para generar excel</p>
+                        </div>
+
+                      </div>
+                      <div id="menu3" class="tab-pane fade">
+                        <div class="container">
+
+                          <h3>Otro formato</h3>
+                          <p>Presione para generar excel</p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -301,7 +339,7 @@
 
     </div>
   </div>
-  <button id="exportar">Exportar</button>
+
   <div id="excel" style="display: none;">
   </div>
 
@@ -745,6 +783,7 @@
   $.support.cors = true;
   var excelIO = new GC.Spread.Excel.IO();
 
+  // Esto es una promesa
   function leerPlantilla() {
     var workbook = new GC.Spread.Sheets.Workbook(document.getElementById("excel"));
 
@@ -774,7 +813,8 @@
   }
 
   function generarExcel() {
-    // Esto es para guardar los valores fijos
+
+    // Establece los índices de inicio de las filas y columnas
     let indFilInicio = 10;
     let indColInicio = 0;
 
@@ -812,6 +852,12 @@
             // Primero, el subtotal
             sheet.setFormula(indFilInicio + 1, 6, `=SUM(G9:G${(indFilInicio + 1)})`, GC.Spread.Sheets.SheetArea.viewport);
 
+            // Luego, el IGV
+            sheet.setFormula(indFilInicio + 2, 6, `=${igvSeleccionado}`);
+
+            // Finalmente, el total (Multiplico subtotal+(subtotal*(igvSeleccionado/100)))
+            sheet.setFormula(indFilInicio + 3, 6, `=(G${(indFilInicio + 2)}+(G${(indFilInicio + 2)}*(G${indFilInicio + 2}/100))`, GC.Spread.Sheets.SheetArea.viewport);
+
           }
           indFilInicio++;
         }
@@ -840,7 +886,7 @@
     });
   }
 
-  $('#exportar').click(function () {
+  $('#btnExportar').click(function () {
     generarExcel();
   })
 
